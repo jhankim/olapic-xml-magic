@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<script src="js/script.js"></script>
+
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/styles.css" rel="stylesheet">
+
+</head>
+<body>
+
+<div class="container">
+	<div class="row">
+		<form id="feedinput" role="search" >
+			<div class="form-group">
+				<input id="feedurl" type="text" class="form-control" placeholder="Enter feed URL">
+				<button type="submit" class="btn btn-default">Submit</button>
+			</div>
+		</form>
+
+
+		<div id="success-msg" class="alert alert-success" role="alert">
+		</div>
+
+		<div id="warning-msg" class="alert alert-warning" role="alert">
+		</div>
+
+		<div id="error-msg" class="alert alert-danger" role="alert">
+		</div>
+	</div>
+
+	<div class="row" id="products-list">
+	</div>
+</div>
+
+
+
+<div id="loading-wrapper">
+	<div id="loading" class="spinner">
+		<div class="cube1"></div>
+		<div class="cube2"></div>
+	</div>
+	<div class="loading-text">Going to the moon and back...</div>
+</div>
+
+</body>
+</html>
