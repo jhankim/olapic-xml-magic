@@ -16,6 +16,14 @@ body {
   display: none;
 }
 
+.caption h3 {
+  font-size: 14px;
+}
+
+.child-product-list {
+  display: none;
+}
+
 .child-product {
   width: 50px;
 }

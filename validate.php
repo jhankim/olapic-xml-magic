@@ -52,16 +52,6 @@ if (!empty($_GET["url"])) {
 		$errors = libxml_get_errors();
 
 		$status['validationErrorCount'] = $errors;
-
-		// foreach($errors as $error) {
-		// 	$errors[''][] = ("Error: %sLine: %s, column: %s, level: %s, code: %s",
-		// 		$error->message,
-		// 		$error->line,
-		// 		$error->column,
-		// 		$error->level,
-		// 		$error->code
-		// 	);
-		// };
 	}
 
 	function generateStructure($input) {
