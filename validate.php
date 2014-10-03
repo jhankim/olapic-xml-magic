@@ -4,6 +4,10 @@ opcache_reset();
 
 ini_set('memory_limit', '-1');
 
+ini_set('display_startup_errors',1);
+ini_set('display_errors',1);
+error_reporting(-1);
+
 require_once('classes/product.class.php');
 
 $status = array();
@@ -63,7 +67,7 @@ if (!empty($_GET["url"])) {
 
 		$max = sizeof($array['Products']['Product']);
 
-		for ($i = 0; $i < 100 ; $i++) {
+		for ($i = 0; $i < 10 ; $i++) {
 			// print_r($array['Products']['Product'][$i]);
 
 			$productId = $array['Products']['Product'][$i]['ProductUniqueID'];
@@ -84,18 +88,51 @@ if (!empty($_GET["url"])) {
 			// Add it to localArray using $me->id as identifier
 			$localArray[$me->id] = $me;
 
-			// Go through localArray and look for parent
-			foreach($localArray as $k) {
-				// echo $k->id;
-
-				if ($k->id == $parentId) {
-					$k->setChildren($me);
-
-					// Delete it from localArray because we already set it to parent
-					unset($localArray[$me->id]);
-				}
-			}
 		}
+
+		// Go through localArray and look for child and move it
+		foreach($localArray as $k) {
+
+			echo $k->id . PHP_EOL;
+
+			if ( $k->isParent == false ) {
+
+				$tempId = $k->parentId;
+
+				echo 'starting array search since ' . $k->id . ' is child' . PHP_EOL;
+
+				foreach($localArray as $c) {
+
+					print_r($c);
+
+					if ($tempId == $c->id) {
+						echo 'found parent' . PHP_EOL;
+					}
+					// echo $c->id . PHP_EOL;
+					// // echo 'from :' . $k->id. PHP_EOL;
+
+					// if ($c->id = $k->parentId) {
+					// 	echo 'parent found' . PHP_EOL;
+					// }
+
+					// 	echo 'For child: ' . $k->id;
+					// 	// $c->setChildren($k);
+
+					// 	// Delete it from localArray because we already set it to parent
+					// 	// unset($localArray[$k->id]);
+					// }
+
+				}
+
+			}
+
+
+
+			echo PHP_EOL;
+			echo PHP_EOL;
+		}
+
+		print_r($localArray); die();
 
 		return $localArray;
 	}
