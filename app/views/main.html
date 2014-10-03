@@ -18,8 +18,12 @@
 
       <div class="form-group">
         <label for="input-feed-url">Enter product feed URL</label>
-        <input type="text" class="form-control" id="input-feed-url" placeholder="Feed URL">
+        <input type="text" class="form-control" id="input-feed-url" ng-model="feedUrl" placeholder="Feed URL">
       </div>
+
+      <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="urlSubmit()">Go lemur, go!</button>
+
+      <pre>{{response}}</pre>
 
     </accordion-group>
 
@@ -30,21 +34,20 @@
       
       <div class="form-group">
         <label for="input-feed-file">File input</label>
-        <input type="file" id="input-feed-file">
+
+        <!-- <input type="text" ng-model="myModelObj"> -->
+        <input type="file" ng-file-select="onFileSelect($files)" accept="application/xml" id="input-feed-file">
+
+        <div ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="optional-css-class-name-or-function" ng-show="dropSupported">or...<br> drop feed here!</div>
+
+        <div ng-file-drop-available="dropSupported=true" 
+        ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+
+      <button ng-click="upload.abort()">Cancel Upload</button>
+
+
       </div>
     </accordion-group>
   </accordion>
 
-  <button type="submit" class="btn btn-primary btn-lg btn-block">Go lemur, go!</button>
 </form>
-
-<div ng-controller="uploadCtrl">
-  <input type="text" ng-model="myModelObj">
-  <input type="file" ng-file-select="onFileSelect($files)" accept="application/xml">
-
-  <div ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="optional-css-class-name-or-function"
-        ng-show="dropSupported">drop files here</div>
-  <div ng-file-drop-available="dropSupported=true" 
-        ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
-  <button ng-click="upload.abort()">Cancel Upload</button>
-</div>
