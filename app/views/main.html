@@ -1,0 +1,50 @@
+<div class="jumbotron">
+  <h1>'Allo, 'Allo!</h1>
+  <p class="lead">
+    <img src="images/lemur.png" alt="I'm lemur!"><br>
+    Always a pleasure validating feeds!
+  </p>
+</div>
+
+
+
+<form role="form" class="input-feed">
+
+  <accordion close-others="oneAtATime">
+    <accordion-group is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+      <accordion-heading>
+        Upload from URL <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+      </accordion-heading>
+
+      <div class="form-group">
+        <label for="input-feed-url">Enter product feed URL</label>
+        <input type="text" class="form-control" id="input-feed-url" placeholder="Feed URL">
+      </div>
+
+    </accordion-group>
+
+    <accordion-group is-open="status.open" is-disabled="status.isFirstDisabled">
+      <accordion-heading>
+        Upload from computer <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+      </accordion-heading>
+      
+      <div class="form-group">
+        <label for="input-feed-file">File input</label>
+        <input type="file" id="input-feed-file">
+      </div>
+    </accordion-group>
+  </accordion>
+
+  <button type="submit" class="btn btn-primary btn-lg btn-block">Go lemur, go!</button>
+</form>
+
+<div ng-controller="uploadCtrl">
+  <input type="text" ng-model="myModelObj">
+  <input type="file" ng-file-select="onFileSelect($files)" accept="application/xml">
+
+  <div ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="optional-css-class-name-or-function"
+        ng-show="dropSupported">drop files here</div>
+  <div ng-file-drop-available="dropSupported=true" 
+        ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+  <button ng-click="upload.abort()">Cancel Upload</button>
+</div>
