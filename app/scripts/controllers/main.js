@@ -37,12 +37,12 @@ angular.module('olapicFeedVisualApp')
       if (!this.feedUrl) {
         return false;
       } else {
-        requestUrl = 'http://localhost:8000/validator/validate.php?url=' + encodeURIComponent(this.feedUrl);
+        requestUrl = 'http://localhost:5000/validator/validate.php?url=' + encodeURIComponent(this.feedUrl);
       }
 
       if ( this.auth ) {
         console.log('auth checked');
-        requestUrl = 'http://localhost:8000/validator/validate.php?url=' + encodeURIComponent(this.feedUrl) + '&username=' + this.username + '&password=' + this.password;
+        requestUrl = 'http://localhost:5000/validator/validate.php?url=' + encodeURIComponent(this.feedUrl) + '&username=' + this.username + '&password=' + this.password;
       }
 
       $http.get(requestUrl).
@@ -68,7 +68,7 @@ angular.module('olapicFeedVisualApp')
       for (var i = 0; i < $files.length; i++) {
         var file = $files[i];
         $scope.upload = $upload.upload({
-          url: 'http://localhost:8000/validator/validate.php', //upload.php script, node.js route, or servlet url
+          url: 'http://localhost:5000/validator/validate.php', //upload.php script, node.js route, or servlet url
           method: 'POST',
           //headers: {'header-key': 'header-value'},
           //withCredentials: true,
