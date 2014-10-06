@@ -32,16 +32,18 @@ angular.module('olapicFeedVisualApp')
 
       $scope.errors, $scope.products = '';
 
+      var requestUrl;
 
       if (!this.feedUrl) {
         return false;
+      } else {
+        requestUrl = 'http://localgit:8888/localdev/feedvalid/validate.php?url=' + encodeURIComponent(this.feedUrl);
       }
 
       if ( this.auth ) {
         console.log('auth checked');
+        requestUrl = 'http://localgit:8888/localdev/feedvalid/validate.php?url=' + encodeURIComponent(this.feedUrl) + '&username=' + this.username + '&password=' + this.password;
       }
-
-      var requestUrl = 'http://localgit:8888/localdev/feedvalid/validate.php?url=' + encodeURIComponent(this.feedUrl);
 
       $http.get(requestUrl).
       success(function(data, status, headers, config) {
@@ -59,6 +61,9 @@ angular.module('olapicFeedVisualApp')
     }
 
     $scope.onFileSelect = function($files) {
+
+      $scope.errors = '';
+
       //$files: an array of files selected, each file has name, size, and type.
       for (var i = 0; i < $files.length; i++) {
         var file = $files[i];
@@ -80,6 +85,7 @@ angular.module('olapicFeedVisualApp')
           // file is uploaded successfully
           $scope.metadata = data.metadata;
           $scope.products = data.data;
+          console.log($scope.products);
         });
         //.error(...)
         //.then(success, error, progress); 

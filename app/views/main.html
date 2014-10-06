@@ -20,26 +20,25 @@
         <input type="url" class="form-control" id="input-feed-url" ng-model="feedUrl" placeholder="Feed URL" required>
       </div>
 
-  <div class="form-group">
-    <label>
-      <input type="checkbox" id="auth" name="auth" ng-model="auth" />  Auth required?
-    </label>
-    <div class="form-group" ng-show="auth">
-
+      <!-- auth stuff
       <div class="form-group">
-        <label for="exampleInputEmail1">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+        <label>
+          <input type="checkbox" id="auth" name="auth" ng-model="auth" />  Auth required?
+        </label>
+        <div class="form-group" ng-show="auth">
+
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" ng-model="username" placeholder="Enter username">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" ng-model="password" placeholder="Password">
+          </div>
+
+        </div>
       </div>
-      <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-      </div>
-
-    </div>
-  </div>
-
-
-
+      -->
 
       <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="urlSubmit()">Go lemur, go!</button>
     </accordion-group>
@@ -70,18 +69,29 @@
 
 </form>
 
-<div id="results">
+<div id="results" ng-show="metadata">
   <h2>Results:</h2>
 
-  <pre>
-    {{metadata}}
-  </pre>
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title">Lemur says...</h3>
+    </div>
+    <div class="panel-body">
+    {{metadata.message}}
+    </div>
+  </div>
 
-  <pre>
-    {{errors}}
-  </pre>
+  <div ng-show="errors.length > 0">
 
-  <ul>
+    <div class="panel panel-warning" ng-repeat="error in errors">
+      <div class="panel-heading">On Line {{error.line}}, column {{error.column}}</div>
+      <div class="panel-body">
+        {{error.message}}
+      </div>
+    </div>
+  </div>
+
+  <ul ng-show="products">
     <li ng-repeat="product in products">
       {{product.id}}
       <ul>
