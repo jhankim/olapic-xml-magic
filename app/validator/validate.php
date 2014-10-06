@@ -44,8 +44,6 @@ if (!empty($_GET["url"])) {
 
 function validateXsd($inputFile, $type, $statusObj) {
 
-	// print_r(file_get_contents($inputFile));die();
-
 	global $response;
 
 	$xmlfile = $inputFile;

@@ -10,7 +10,31 @@
 <form role="form" class="input-feed">
 <h2>Upload feed:</h2>
   <accordion close-others="oneAtATime">
-    <accordion-group is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+
+    <accordion-group is-open="status.isFirstOpen">
+      <accordion-heading>
+        Upload from computer <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.isFirstOpen, 'glyphicon-chevron-right': !status.isFirstOpen}"></i>
+      </accordion-heading>
+      
+      <div class="form-group">
+        <label for="input-feed-file">File input</label>
+
+        <div ng-click="triggerUpload()" id="input-feed-file-btn" class="btn btn-primary btn-lg btn-block">Browse computer</div>
+        <input type="file" ng-file-select="onFileSelect($files)" accept="application/xml" id="input-feed-file">
+
+        <!-- removing dropzone for now...
+        <div id="input-feed-file-dropzone" ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="file-hover" ng-show="dropSupported">
+          or...<br> drop feed here!
+        </div> -->
+
+        <div ng-file-drop-available="dropSupported=true" 
+        ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+
+        <!-- <button ng-click="upload.abort()">Cancel Upload</button> -->
+      </div>
+    </accordion-group>
+
+    <accordion-group is-open="status.open">
       <accordion-heading>
         Upload from URL <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
       </accordion-heading>
@@ -43,35 +67,9 @@
       <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="urlSubmit()">Go lemur, go!</button>
     </accordion-group>
 
-    <accordion-group is-open="status.open" is-disabled="status.isFirstDisabled">
-      <accordion-heading>
-        Upload from computer <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-      </accordion-heading>
-      
-      <div class="form-group">
-        <label for="input-feed-file">File input</label>
-
-        <div ng-click="triggerUpload()" id="input-feed-file-btn" class="btn btn-primary btn-lg btn-block">Browse computer</div>
-        <input type="file" ng-file-select="onFileSelect($files)" accept="application/xml" id="input-feed-file">
-
-        <!-- removing dropzone for now...
-        <div id="input-feed-file-dropzone" ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="file-hover" ng-show="dropSupported">
-          or...<br> drop feed here!
-        </div> -->
-
-        <div ng-file-drop-available="dropSupported=true" 
-        ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
-
-        <!-- <button ng-click="upload.abort()">Cancel Upload</button> -->
-      </div>
-    </accordion-group>
   </accordion>
 
 </form>
-
-<pre>
-hello
-</pre>
 
 <div id="results" ng-show="metadata">
   <h2>Results:</h2>
