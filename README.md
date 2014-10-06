@@ -3,7 +3,7 @@ olapic-xml-magic
 
 AngularJS + PHP powered script to validate + visualize product feed structure
 
-## Pre-reqs
+## Dependencies
 
 - NPM
 - Bower
