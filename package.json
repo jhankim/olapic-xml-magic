@@ -1,7 +1,9 @@
 {
   "name": "olapicfeedvisual",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "grunt-php": "^1.0.1"
+  },
   "devDependencies": {
     "grunt": "^0.4.1",
     "grunt-autoprefixer": "^0.7.3",

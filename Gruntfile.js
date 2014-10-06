@@ -110,6 +110,16 @@ module.exports = function (grunt) {
       }
     },
 
+    //PHP 
+    php: {
+      dist: {
+        options: {
+          port: 5000,
+          base: './app'
+        }
+      }
+    },
+
     // Make sure code styles are up to par and there are no obvious mistakes
     jshint: {
       options: {
@@ -367,6 +377,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'wiredep',
+      'php',
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
