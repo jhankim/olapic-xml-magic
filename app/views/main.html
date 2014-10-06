@@ -69,6 +69,10 @@
 
 </form>
 
+<pre>
+hello
+</pre>
+
 <div id="results" ng-show="metadata">
   <h2>Results:</h2>
 
@@ -91,14 +95,34 @@
     </div>
   </div>
 
-  <ul ng-show="products">
-    <li ng-repeat="product in products">
-      {{product.id}}
-      <ul>
-        <li ng-repeat="childProduct in product.children">
-        {{childProduct.id}}
-        </li>
-      </ul>
+  <ul class="product-list" ng-show="products" style="font-family:Menlo, Monaco, Consolas, 'Courier New', monospace">
+    <li class="cf" ng-repeat="product in products">
+      <img src="{{product.imageUrl}}">
+      <dl>
+        <dt>Product Name:</dt>
+        <dd>{{product.name}}</dd>
+      </dl>
+      <dl>
+        <dt>Product ID:</dt>
+        <dd>{{product.id}}</dd>
+      </dl>
+      <dl>
+        <dt># of Children: </dt>
+        <dd>{{product.children.length}}</dd>
+      </dl>
+
+      <accordion ng-show="product.children">
+        <accordion-group>
+          <accordion-heading>
+            Child products:
+          </accordion-heading>
+
+          <div ng-repeat="childProduct in product.children">
+          {{childProduct.id}}
+          </div>
+        </accordion-group>
+      </accordion>
+
     </li>
   </ul>
 

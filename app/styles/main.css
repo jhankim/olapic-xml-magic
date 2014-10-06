@@ -97,3 +97,39 @@ body {
   margin: 10px 0;
   text-align: center;
 }
+
+#input-feed-file-dropzone.file-hover {
+  border: 3px dotted #E2E2E2;
+}
+
+.product-list > li {
+  margin-bottom: 30px;
+  list-style: none;
+}
+
+.product-list > li > img {
+  width: 100px;
+  float: left;
+  margin-right: 20px;
+}
+
+dl {
+  margin-bottom: 0px;
+}
+
+dt {
+  display: block;
+  float: left;
+  width: 130px;
+  font-weight: bold;
+}
+
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
