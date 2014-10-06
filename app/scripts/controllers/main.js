@@ -50,6 +50,7 @@ angular.module('olapicFeedVisualApp')
         $scope.metadata = data.metadata;
         if ( data.metadata.code > 1 ) {
           $scope.errors = data.data;
+          console.log('there was an error');
         } else {
           $scope.products = data.data;
         }
@@ -84,8 +85,14 @@ angular.module('olapicFeedVisualApp')
         }).success(function(data, status, headers, config) {
           // file is uploaded successfully
           $scope.metadata = data.metadata;
-          $scope.products = data.data;
-          console.log($scope.products);
+
+          if ( data.metadata.code > 1 ) {
+            $scope.errors = data.data;
+            console.log('there was an error');
+          } else {
+            $scope.products = data.data;
+          }
+
         });
         //.error(...)
         //.then(success, error, progress); 

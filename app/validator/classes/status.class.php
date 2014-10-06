@@ -24,7 +24,7 @@ class Status {
 		$this->code = $code;
 		switch ($code) {
 		    case 1:
-		        $this->setMessage('Wooohooo! Validation passed :) Please check hierarchy below!');
+		        $this->setMessage('Validation passed :) This doesn\'t necessarily mean that the feed is ready to go though... Please check hierarchy below and make sure it meets the business requirements!');
 		        break;
 		    case 2:
 		        $this->setMessage('Document not valid');

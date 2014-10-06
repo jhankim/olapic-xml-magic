@@ -6,122 +6,138 @@
 </div>
  -->
 
+<div class="row">
 
-<form role="form" class="input-feed">
-<h2>Upload feed:</h2>
-  <accordion close-others="oneAtATime">
+  <div class="col-md-3">
 
-    <accordion-group is-open="status.isFirstOpen">
-      <accordion-heading>
-        Upload from computer <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.isFirstOpen, 'glyphicon-chevron-right': !status.isFirstOpen}"></i>
-      </accordion-heading>
-      
-      <div class="form-group">
-        <label for="input-feed-file">File input</label>
+    <form role="form" class="input-feed">
+      <h2>Upload feed:</h2>
+      <accordion close-others="oneAtATime">
 
-        <div ng-click="triggerUpload()" id="input-feed-file-btn" class="btn btn-primary btn-lg btn-block">Browse computer</div>
-        <input type="file" ng-file-select="onFileSelect($files)" accept="application/xml" id="input-feed-file">
-
-        <!-- removing dropzone for now...
-        <div id="input-feed-file-dropzone" ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="file-hover" ng-show="dropSupported">
-          or...<br> drop feed here!
-        </div> -->
-
-        <div ng-file-drop-available="dropSupported=true" 
-        ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
-
-        <!-- <button ng-click="upload.abort()">Cancel Upload</button> -->
-      </div>
-    </accordion-group>
-
-    <accordion-group is-open="status.open">
-      <accordion-heading>
-        Upload from URL <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-      </accordion-heading>
-
-      <div class="form-group">
-        <label for="input-feed-url">Enter product feed URL</label>
-        <input type="url" class="form-control" id="input-feed-url" ng-model="feedUrl" placeholder="Feed URL" required>
-      </div>
-
-      <!-- auth stuff
-      <div class="form-group">
-        <label>
-          <input type="checkbox" id="auth" name="auth" ng-model="auth" />  Auth required?
-        </label>
-        <div class="form-group" ng-show="auth">
-
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" ng-model="username" placeholder="Enter username">
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" ng-model="password" placeholder="Password">
-          </div>
-
-        </div>
-      </div>
-      -->
-
-      <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="urlSubmit()">Go lemur, go!</button>
-    </accordion-group>
-
-  </accordion>
-
-</form>
-
-<div id="results" ng-show="metadata">
-  <h2>Results:</h2>
-
-  <div class="panel panel-info">
-    <div class="panel-heading">
-      <h3 class="panel-title">Lemur says...</h3>
-    </div>
-    <div class="panel-body">
-    {{metadata.message}}
-    </div>
-  </div>
-
-  <div ng-show="errors.length > 0">
-
-    <div class="panel panel-warning" ng-repeat="error in errors">
-      <div class="panel-heading">On Line {{error.line}}, column {{error.column}}</div>
-      <div class="panel-body">
-        {{error.message}}
-      </div>
-    </div>
-  </div>
-
-  <ul class="product-list" ng-show="products" style="font-family:Menlo, Monaco, Consolas, 'Courier New', monospace">
-    <li class="cf" ng-repeat="product in products">
-      <img src="{{product.imageUrl}}">
-      <dl>
-        <dt>Product Name:</dt>
-        <dd>{{product.name}}</dd>
-      </dl>
-      <dl>
-        <dt>Product ID:</dt>
-        <dd>{{product.id}}</dd>
-      </dl>
-      <dl>
-        <dt># of Children: </dt>
-        <dd>{{product.children.length}}</dd>
-      </dl>
-
-      <accordion ng-show="product.children">
-        <accordion-group>
+        <accordion-group is-open="status.isFirstOpen">
           <accordion-heading>
-            Child products:
+            Upload from computer <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.isFirstOpen, 'glyphicon-chevron-right': !status.isFirstOpen}"></i>
           </accordion-heading>
+          
+          <div class="form-group">
+            <label for="input-feed-file">File input</label>
 
-          <div ng-repeat="childProduct in product.children">
-          {{childProduct.id}}
+            <div ng-click="triggerUpload()" id="input-feed-file-btn" class="btn btn-primary btn-lg btn-block">Browse computer</div>
+            <input type="file" ng-file-select="onFileSelect($files)" accept="application/xml" id="input-feed-file">
+
+            <!-- removing dropzone for now...
+            <div id="input-feed-file-dropzone" ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="file-hover" ng-show="dropSupported">
+              or...<br> drop feed here!
+            </div> -->
+
+            <div ng-file-drop-available="dropSupported=true" 
+            ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+
+            <!-- <button ng-click="upload.abort()">Cancel Upload</button> -->
           </div>
         </accordion-group>
+
+        <accordion-group is-open="status.open">
+          <accordion-heading>
+            Upload from URL <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+          </accordion-heading>
+
+          <div class="form-group">
+            <label for="input-feed-url">Enter product feed URL</label>
+            <input type="url" class="form-control" id="input-feed-url" ng-model="feedUrl" placeholder="Feed URL" required>
+          </div>
+
+          <!-- auth stuff
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="auth" name="auth" ng-model="auth" />  Auth required?
+            </label>
+            <div class="form-group" ng-show="auth">
+
+              <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" ng-model="username" placeholder="Enter username">
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" ng-model="password" placeholder="Password">
+              </div>
+
+            </div>
+          </div>
+          -->
+
+          <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="urlSubmit()">Go lemur, go!</button>
+        </accordion-group>
+
       </accordion>
 
-    </li>
-  </ul>
+    </form>
+
+  </div>
+  
+  <div class="col-md-9">
+
+    <div id="results" ng-show="metadata">
+      <h2>Results:</h2>
+
+      <div class="panel panel-info" ng-class="{panle-danger: error}">
+        <div class="panel-heading">
+          <h3 class="panel-title">Lemur says...</h3>
+        </div>
+        <div class="panel-body">
+        {{metadata.message}}
+        </div>
+      </div>
+
+      <div ng-show="errors.length > 0">
+        <div class="panel panel-warning" ng-repeat="error in errors">
+          <div class="panel-heading">On Line {{error.line}}, column {{error.column}}</div>
+          <div class="panel-body">
+            {{error.message}}
+          </div>
+        </div>
+      </div>
+
+      <ul class="product-list" ng-show="products" style="font-family:Menlo, Monaco, Consolas, 'Courier New', monospace">
+        <li class="cf" ng-repeat="product in products">
+          <div class="img-container col-md-2" style="background-image:url('{{product.imageUrl}}');"></div>
+          <div class="info-container col-md-9">
+
+            <dl class="cf">
+              <dt>Product Name:</dt>
+              <dd>{{product.name}}</dd>
+            </dl>
+            <dl class="cf">
+              <dt>Product ID:</dt>
+              <dd>{{product.id}}</dd>
+            </dl>
+            <dl class="cf">
+              <dt>Product URL: </dt>
+              <dd popover="{{product.url}}" class="product-url">{{product.url}}</dd>
+            </dl>
+            <dl class="cf">
+              <dt># of Children: </dt>
+              <dd>{{product.children.length}}</dd>
+            </dl>
+
+            <accordion ng-show="product.children">
+              <accordion-group>
+                <accordion-heading>
+                  Child product IDs:
+                </accordion-heading>
+
+                <div ng-repeat="childProduct in product.children">
+                {{childProduct.id}}
+                </div>
+              </accordion-group>
+            </accordion>
+
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
 
 </div>
