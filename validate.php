@@ -54,29 +54,32 @@ function validateXsd($inputFile, $type, $statusObj) {
 
 		if(validateUrl($xmlfile) > 400 || validateUrl($xmlfile) == 0) {
 			$statusObj->setCode(5);
-		} else {
-			libxml_use_internal_errors(true);
-		 
-			$feed = new DOMDocument();
-			$feed->preserveWhitespace = false;
-			$result = $feed->load($xmlfile);
-
-			if ( !$result ) {
-				$statusObj->setCode(3);
-				$errors = libxml_get_errors();
-				$response['data'] = (array)$errors;
-			} elseif ( !@($feed->schemaValidate($xsdfile)) ) {
-				$statusObj->setCode(2);
-				$errors = libxml_get_errors();
-				$response['data'] = (array)$errors;
-			}
-
-			if( $result === TRUE && @($feed->schemaValidate($xsdfile)) ) {
-				$statusObj->setCode(1);
-
-				$response['data'] = (array)generateStructure($xmlfile);
-			}
+			$convObj = (array)$statusObj;
+			$response['metadata'] = $convObj;
+			return false;
 		}
+
+	}
+	libxml_use_internal_errors(true);
+ 
+	$feed = new DOMDocument();
+	$feed->preserveWhitespace = false;
+	$result = $feed->load($xmlfile);
+
+	if ( !$result ) {
+		$statusObj->setCode(3);
+		$errors = libxml_get_errors();
+		$response['data'] = (array)$errors;
+	} elseif ( !@($feed->schemaValidate($xsdfile)) ) {
+		$statusObj->setCode(2);
+		$errors = libxml_get_errors();
+		$response['data'] = (array)$errors;
+	}
+
+	if( $result === TRUE && @($feed->schemaValidate($xsdfile)) ) {
+		$statusObj->setCode(1);
+
+		$response['data'] = (array)generateStructure($xmlfile);
 	}
 
 	$convObj = (array)$statusObj;

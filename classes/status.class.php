@@ -24,7 +24,7 @@ class Status {
 		$this->code = $code;
 		switch ($code) {
 		    case 1:
-		        $this->setMessage('OK');
+		        $this->setMessage('Wooohooo! Validation passed :) Please check hierarchy below!');
 		        break;
 		    case 2:
 		        $this->setMessage('Document not valid');
