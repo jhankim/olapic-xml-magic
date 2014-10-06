@@ -17,7 +17,7 @@ class Product {
 		$this->name = $name;
 		$this->url = $url;
 		$this->imageUrl = $imageUrl;
-		$this->parentId;
+		$this->parentId = $parentId;
 		$this->color = $color;
 	}
 	

@@ -2,12 +2,12 @@
 
 class Status {
 	// Creating some properties (variables tied to an object)
-	public $id;
+	public $code;
 	public $message;
 	
 	// Assigning the values
-	public function __construct($id, $message) {
-		$this->id = $id;
+	public function __construct($code, $message) {
+		$this->code = $code;
 		$this->message = $message;
 	}
 	
@@ -17,12 +17,32 @@ class Status {
 	}
 
 	public function getStatusCode() {
-		return $this->id;
+		return $this->code;
 	}
 
-	public function setId($id){
-		$this->id = $id;
-		return $this->id;
+	public function setCode($code){
+		$this->code = $code;
+		switch ($code) {
+		    case 1:
+		        $this->setMessage('OK');
+		        break;
+		    case 2:
+		        $this->setMessage('Document not valid');
+		        break;
+		    case 3:
+		        $this->setMessage('Document not well-formed');
+		        break;
+	        case 4:
+	        	$this->setMessage('Document not valid & well-formed');
+	        	break;
+	        case 5:
+	        	$this->setMessage('URL Invalid');
+	        	break;
+	        case 6:
+	        	$this->setMessage('Misc error');
+	        	break;
+		}
+		return $this->code;
 	}
 
 	public function setMessage($message){

@@ -14,36 +14,21 @@ require_once('classes/status.class.php');
 
 $status = new Status('1','default');
 
+global $response;
+
+$response = array(
+    "metadata" => array(),
+    "data" => array(),
+);
+
 if (!empty($_GET["url"])) {
 
 	$input = htmlspecialchars($_GET["url"]);
 
-	echo 'Got URL: ' . $input . ' ' . PHP_EOL .PHP_EOL ;
+	validateXsd($input, 1, $status);
 
-	$ch = curl_init($input);
+	echo json_encode($response,JSON_PRETTY_PRINT);
 
-	$headers = array();
-	$headers[] = 'Accept: application/xml';
-	$headers[] = 'Content-Type: application/xml';
-
-	curl_setopt($ch, CURLOPT_NOBODY, true);
-	curl_setopt($ch, CURLOPT_HEADER, true);
-	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-	curl_exec($ch);
-
-	print_r(curl_getinfo($ch));
-
-	$retcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-	// $retcode >= 400 -> not found, $retcode = 200, found.
-	curl_close($ch);
-
-	if ( $retcode >= 400 || $retcode == 0 ) {
-		$status->setId('5');
-		$status->setMessage('Error. File not found, please provide valid url');
-	}
-
-	// echo json_encode((array)$status);
 
 } elseif (isset($_FILES['file'])) {
 
@@ -58,43 +43,50 @@ if (!empty($_GET["url"])) {
 
 }
 
-function validateXsd($inputFile, $bool) {
+function validateXsd($inputFile, $bool, $statusObj) {
+
+	global $response;
+
 	$xmlfile = htmlspecialchars($_GET["url"]);
 	$xsdfile = 'http://photorank.me/olapicProductFeedV1_0.xsd';
 
-	libxml_use_internal_errors(true);
- 
-	$feed = new DOMDocument();
-	$feed->preserveWhitespace = false;
-	$result = $feed->load($xmlfile);
+	$handle = curl_init($xmlfile);
+	curl_setopt($handle,  CURLOPT_RETURNTRANSFER, TRUE);
 
+	/* Get the HTML or whatever is linked in $url. */
+	$curlResponse = curl_exec($handle);
 
-	if($result === TRUE) {
-		$status['wellformed'] = true;
+	/* Check for 404 (file not found). */
+	$httpCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+
+	if($httpCode > 400 || $httpCode == 0) {
+		$statusObj->setCode(5);
 	} else {
-		$status['error'] = 1;
-		$status['wellformed'] = false;
+		libxml_use_internal_errors(true);
+	 
+		$feed = new DOMDocument();
+		$feed->preserveWhitespace = false;
+		$result = $feed->load($xmlfile);
+
+		if( $result === TRUE && @($feed->schemaValidate($xsdfile)) ) {
+			$statusObj->setCode(1);
+			$response['data'] = (array)generateStructure($xmlfile);
+		} elseif ( !$result ) {
+			$statusObj->setCode(3);
+			$errors = libxml_get_errors();
+			$response['data'] = (array)$errors;
+		} elseif ( !@($feed->schemaValidate($xsdfile)) ) {
+			$statusObj->setCode(2);
+			$errors = libxml_get_errors();
+			$response['data'] = (array)$errors;
+		}
 	}
 
-	if(@($feed->schemaValidate($xsdfile))) {
-		$status['valid'] = true;
-	} else {
-		
-		$status['error'] = 1;
-		$status['valid'] = false;
-		// var_dump the error messages
-		$errors = libxml_get_errors();
+	curl_close($handle);
 
-		$status['validationErrorCount'] = $errors;
-	}
+	$convObj = (array)$statusObj;
+	$response['metadata'] = $convObj;
 
-	
-
-	if (@($feed->schemaValidate($xsdfile)) && $result === TRUE) {
-		$status['products'] = generateStructure($xmlfile);
-	}
-
-	echo json_encode($status);
 }
 
 function generateStructure($input) {
@@ -106,8 +98,7 @@ function generateStructure($input) {
 
 	$max = sizeof($array['Products']['Product']);
 
-	for ($i = 0; $i < 10 ; $i++) {
-		// print_r($array['Products']['Product'][$i]);
+	for ($i = 0; $i < $max ; $i++) {
 
 		$productId = $array['Products']['Product'][$i]['ProductUniqueID'];
 		$productName = $array['Products']['Product'][$i]['Name'];
@@ -118,9 +109,10 @@ function generateStructure($input) {
 
 		// Create new Product object from Product class
 		$me = new Product($productId, $productName, $productUrl, $productImageUrl, $parentId, $color);
-		
+
 		// If ParentID is set, then set Product object -> isParent to false
-		if (isset($array['Products']['Product'][$i]['ParentID'])) {
+		if (isset($me->parentId)) {
+			// echo $me->id . ' is child ' . PHP_EOL;
 			$me->setToChild();
 		}
 
@@ -132,52 +124,23 @@ function generateStructure($input) {
 	// Go through localArray and look for child and move it
 	foreach($localArray as $k) {
 
-		echo $k->id . PHP_EOL;
-
 		if ( $k->isParent == false ) {
 
 			$tempId = $k->parentId;
 
-			echo 'starting array search since ' . $k->id . ' is child' . PHP_EOL;
-
 			foreach($localArray as $c) {
 
-				print_r($c);
-
 				if ($tempId == $c->id) {
-					echo 'found parent' . PHP_EOL;
+					$c->setChildren($k);
+
+					// Delete it from localArray because we already set it to parent
+					unset($localArray[$k->id]);
 				}
-				// echo $c->id . PHP_EOL;
-				// // echo 'from :' . $k->id. PHP_EOL;
-
-				// if ($c->id = $k->parentId) {
-				// 	echo 'parent found' . PHP_EOL;
-				// }
-
-				// 	echo 'For child: ' . $k->id;
-				// 	// $c->setChildren($k);
-
-				// 	// Delete it from localArray because we already set it to parent
-				// 	// unset($localArray[$k->id]);
-				// }
-
 			}
-
 		}
-
-		echo PHP_EOL;
-		echo PHP_EOL;
 	}
 
-	print_r($localArray); die();
-
 	return $localArray;
-}
-
-function validateUrl($url) {
-
-
-	// return $status;
 }
 
 
