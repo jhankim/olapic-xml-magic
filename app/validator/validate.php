@@ -4,9 +4,9 @@ header('Access-Control-Allow-Origin: *');
 
 ini_set('memory_limit', '-1');
 
-ini_set('display_startup_errors',1);
-ini_set('display_errors',1);
-error_reporting(-1);
+// ini_set('display_startup_errors',1);
+// ini_set('display_errors',1);
+// error_reporting(-1);
 
 require_once('classes/product.class.php');
 require_once('classes/status.class.php');
@@ -20,7 +20,7 @@ $response = array(
     "data" => array(),
 );
 
-if (!empty($_GET["url"])) {
+if (!empty($_GET["url"]) && $_GET["url"] !== '') {
 
 	$input = htmlspecialchars($_GET["url"]);
 
@@ -37,7 +37,7 @@ if (!empty($_GET["url"])) {
 
 	echo json_encode($response,JSON_PRETTY_PRINT);
 
-} elseif ( $_GET["url"] == '' ) {
+} else {
 	$status->setCode(5);
 	echo json_encode($response,JSON_PRETTY_PRINT);
 }

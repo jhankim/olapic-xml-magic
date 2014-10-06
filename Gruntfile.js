@@ -115,7 +115,8 @@ module.exports = function (grunt) {
       dist: {
         options: {
           port: 5000,
-          base: './app'
+          base: './app',
+          ini: './php.ini'
         }
       }
     },
