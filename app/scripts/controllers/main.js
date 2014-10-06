@@ -72,7 +72,7 @@ angular.module('olapicFeedVisualApp')
           method: 'POST',
           //headers: {'header-key': 'header-value'},
           //withCredentials: true,
-          data: {myObj: $scope.myModelObj},
+          // data: {myObj: $scope.myModelObj},
           file: file, // or list of files ($files) for html5 only
           //fileName: 'doc.jpg' or ['1.jpg', '2.jpg', ...] // to modify the name of the file(s)
           // customize file formData name ('Content-Disposition'), server side file variable name. 
