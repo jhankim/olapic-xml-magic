@@ -1,15 +1,14 @@
-<div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
+<!-- <div class="jumbotron">
   <p class="lead">
     <img src="images/lemur.png" alt="I'm lemur!"><br>
     Always a pleasure validating feeds!
   </p>
 </div>
-
+ -->
 
 
 <form role="form" class="input-feed">
-
+<h2>Upload feed:</h2>
   <accordion close-others="oneAtATime">
     <accordion-group is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
       <accordion-heading>
@@ -18,32 +17,31 @@
 
       <div class="form-group">
         <label for="input-feed-url">Enter product feed URL</label>
-        <input type="text" class="form-control" id="input-feed-url" ng-model="feedUrl" placeholder="Feed URL">
+        <input type="url" class="form-control" id="input-feed-url" ng-model="feedUrl" placeholder="Feed URL" required>
       </div>
 
+  <div class="form-group">
+    <label>
+      <input type="checkbox" id="auth" name="auth" ng-model="auth" />  Auth required?
+    </label>
+    <div class="form-group" ng-show="auth">
+
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+      </div>
+
+    </div>
+  </div>
+
+
+
+
       <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="urlSubmit()">Go lemur, go!</button>
-<!-- 
-      <pre>
-        Error codes:
-        1 - OK
-        2 - Document not valid
-        3 - Document not well-formed
-        4 - Document not valid &amp; well-formed
-        5 - URL invalid
-        6 - Misc.
-      </pre> -->
-
-      <ul>
-        <li ng-repeat="product in products">
-          {{product.id}}
-          <ul>
-            <li ng-repeat="childProduct in product.children">
-            {{childProduct.id}}
-            </li>
-          </ul>
-        </li>
-      </ul>
-
     </accordion-group>
 
     <accordion-group is-open="status.open" is-disabled="status.isFirstDisabled">
@@ -54,19 +52,44 @@
       <div class="form-group">
         <label for="input-feed-file">File input</label>
 
-        <!-- <input type="text" ng-model="myModelObj"> -->
+        <div ng-click="triggerUpload()" id="input-feed-file-btn" class="btn btn-primary btn-lg btn-block">Browse computer</div>
         <input type="file" ng-file-select="onFileSelect($files)" accept="application/xml" id="input-feed-file">
 
-        <div ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="optional-css-class-name-or-function" ng-show="dropSupported">or...<br> drop feed here!</div>
+        <!-- removing dropzone for now...
+        <div id="input-feed-file-dropzone" ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="file-hover" ng-show="dropSupported">
+          or...<br> drop feed here!
+        </div> -->
 
         <div ng-file-drop-available="dropSupported=true" 
         ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
 
-      <button ng-click="upload.abort()">Cancel Upload</button>
-
-
+        <!-- <button ng-click="upload.abort()">Cancel Upload</button> -->
       </div>
     </accordion-group>
   </accordion>
 
 </form>
+
+<div id="results">
+  <h2>Results:</h2>
+
+  <pre>
+    {{metadata}}
+  </pre>
+
+  <pre>
+    {{errors}}
+  </pre>
+
+  <ul>
+    <li ng-repeat="product in products">
+      {{product.id}}
+      <ul>
+        <li ng-repeat="childProduct in product.children">
+        {{childProduct.id}}
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+</div>

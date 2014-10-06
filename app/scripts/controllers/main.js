@@ -19,15 +19,39 @@ angular.module('olapicFeedVisualApp')
 
     $scope.formData = {};
 
-    $scope.urlSubmit = function() {
-      console.log(this.feedUrl);
+    $scope.triggerUpload=function()
+    {
+     var fileuploader = angular.element("#input-feed-file");
+        fileuploader.on('click',function(){
+            console.log("File upload triggered programatically");
+        })
+        fileuploader.trigger('click')
+    }
 
-      var requestUrl = 'http://localgit:8888/localdev/feedvalid/validate2.php?url=' + encodeURIComponent(this.feedUrl);
+    $scope.urlSubmit = function() {
+
+      $scope.errors, $scope.products = '';
+
+
+      if (!this.feedUrl) {
+        return false;
+      }
+
+      if ( this.auth ) {
+        console.log('auth checked');
+      }
+
+      var requestUrl = 'http://localgit:8888/localdev/feedvalid/validate.php?url=' + encodeURIComponent(this.feedUrl);
 
       $http.get(requestUrl).
       success(function(data, status, headers, config) {
-        $scope.response = data;
-        $scope.products = data.data;
+        $scope.metadata = data.metadata;
+        if ( data.metadata.code > 1 ) {
+          $scope.errors = data.data;
+        } else {
+          $scope.products = data.data;
+        }
+        
       }).
       error(function(data, status, headers, config) {
         // log error
@@ -39,7 +63,7 @@ angular.module('olapicFeedVisualApp')
       for (var i = 0; i < $files.length; i++) {
         var file = $files[i];
         $scope.upload = $upload.upload({
-          url: 'http://localgit:8888/localdev/feedvalid/validate2.php', //upload.php script, node.js route, or servlet url
+          url: 'http://localgit:8888/localdev/feedvalid/validate.php', //upload.php script, node.js route, or servlet url
           method: 'POST',
           //headers: {'header-key': 'header-value'},
           //withCredentials: true,
@@ -54,7 +78,8 @@ angular.module('olapicFeedVisualApp')
           console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
         }).success(function(data, status, headers, config) {
           // file is uploaded successfully
-          console.log(data);
+          $scope.metadata = data.metadata;
+          $scope.products = data.data;
         });
         //.error(...)
         //.then(success, error, progress); 

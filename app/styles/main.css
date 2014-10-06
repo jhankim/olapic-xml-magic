@@ -81,3 +81,19 @@ body {
 .accordion-toggle {
   cursor: pointer;
 }
+
+#input-feed-file:before {
+  content: "asd";
+}
+
+#input-feed-file {
+  display: none;
+}
+
+#input-feed-file-dropzone {
+  padding: 20px;
+  border: 3px dotted #E2E2E2;
+  border-radius: 10px;
+  margin: 10px 0;
+  text-align: center;
+}

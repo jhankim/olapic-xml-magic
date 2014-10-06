@@ -16,17 +16,14 @@ angular
     'ngSanitize',
     'ngTouch',
     'ui.bootstrap',
-    'angularFileUpload'
+    'angularFileUpload',
+    'angular-loading-bar'
   ])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
-      })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
       })
       .otherwise({
         redirectTo: '/'
