@@ -27,6 +27,7 @@ angular.module('olapicFeedVisualApp')
       $http.get(requestUrl).
       success(function(data, status, headers, config) {
         $scope.response = data;
+        $scope.products = data.data;
       }).
       error(function(data, status, headers, config) {
         // log error

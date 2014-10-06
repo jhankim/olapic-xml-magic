@@ -22,8 +22,27 @@
       </div>
 
       <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="urlSubmit()">Go lemur, go!</button>
+<!-- 
+      <pre>
+        Error codes:
+        1 - OK
+        2 - Document not valid
+        3 - Document not well-formed
+        4 - Document not valid &amp; well-formed
+        5 - URL invalid
+        6 - Misc.
+      </pre> -->
 
-      <pre>{{response}}</pre>
+      <ul>
+        <li ng-repeat="product in products">
+          {{product.id}}
+          <ul>
+            <li ng-repeat="childProduct in product.children">
+            {{childProduct.id}}
+            </li>
+          </ul>
+        </li>
+      </ul>
 
     </accordion-group>
 
