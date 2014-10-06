@@ -76,9 +76,11 @@
 
   </div>
   
-  <div class="col-md-9">
+  <div id="results" class="col-md-9">
 
-    <div id="results" ng-show="metadata">
+    <div class="lemur" ng-hide="metadata">give me all your feeds!</div>
+
+    <div ng-show="metadata">
       <h2>Results:</h2>
 
       <div class="panel" ng-class="{'panel-danger': errors, 'panel-success': products}">
