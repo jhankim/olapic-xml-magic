@@ -36,7 +36,7 @@ class Status {
 	        	$this->setMessage('Document not valid & well-formed');
 	        	break;
 	        case 5:
-	        	$this->setMessage('URL Invalid');
+	        	$this->setMessage('URL Invalid or Auth failed');
 	        	break;
 	        case 6:
 	        	$this->setMessage('Misc error');

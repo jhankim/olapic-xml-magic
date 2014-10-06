@@ -25,64 +25,59 @@ if (!empty($_GET["url"])) {
 
 	$input = htmlspecialchars($_GET["url"]);
 
-	validateXsd($input, 1, $status);
+	validateXsd($input, 'url', $status);
 
 	echo json_encode($response,JSON_PRETTY_PRINT);
 
 
 } elseif (isset($_FILES['file'])) {
 
-	echo 'file uploaded';
+	$input = $_FILES['file']['tmp_name'];
 
-} else {
+	validateXsd($input, 'file', $status);
 
-	header('HTTP/ 433 Reason Phrase As You Wish');
-	$status['error'] = 1;
-	$status['message'] = 'Error. Please provide a URL.';
-	echo json_encode($status);
+	echo json_encode($response,JSON_PRETTY_PRINT);
 
+} elseif ( $_GET["url"] == '' ) {
+	$statusObj->setCode(5);
+	echo json_encode($response,JSON_PRETTY_PRINT);
 }
 
-function validateXsd($inputFile, $bool, $statusObj) {
+function validateXsd($inputFile, $type, $statusObj) {
 
 	global $response;
 
-	$xmlfile = htmlspecialchars($_GET["url"]);
+	$xmlfile = $inputFile;
 	$xsdfile = 'http://photorank.me/olapicProductFeedV1_0.xsd';
 
-	$handle = curl_init($xmlfile);
-	curl_setopt($handle,  CURLOPT_RETURNTRANSFER, TRUE);
+	if ( $type == "url" ) {
 
-	/* Get the HTML or whatever is linked in $url. */
-	$curlResponse = curl_exec($handle);
+		if(validateUrl($xmlfile) > 400 || validateUrl($xmlfile) == 0) {
+			$statusObj->setCode(5);
+		} else {
+			libxml_use_internal_errors(true);
+		 
+			$feed = new DOMDocument();
+			$feed->preserveWhitespace = false;
+			$result = $feed->load($xmlfile);
 
-	/* Check for 404 (file not found). */
-	$httpCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+			if ( !$result ) {
+				$statusObj->setCode(3);
+				$errors = libxml_get_errors();
+				$response['data'] = (array)$errors;
+			} elseif ( !@($feed->schemaValidate($xsdfile)) ) {
+				$statusObj->setCode(2);
+				$errors = libxml_get_errors();
+				$response['data'] = (array)$errors;
+			}
 
-	if($httpCode > 400 || $httpCode == 0) {
-		$statusObj->setCode(5);
-	} else {
-		libxml_use_internal_errors(true);
-	 
-		$feed = new DOMDocument();
-		$feed->preserveWhitespace = false;
-		$result = $feed->load($xmlfile);
+			if( $result === TRUE && @($feed->schemaValidate($xsdfile)) ) {
+				$statusObj->setCode(1);
 
-		if( $result === TRUE && @($feed->schemaValidate($xsdfile)) ) {
-			$statusObj->setCode(1);
-			$response['data'] = (array)generateStructure($xmlfile);
-		} elseif ( !$result ) {
-			$statusObj->setCode(3);
-			$errors = libxml_get_errors();
-			$response['data'] = (array)$errors;
-		} elseif ( !@($feed->schemaValidate($xsdfile)) ) {
-			$statusObj->setCode(2);
-			$errors = libxml_get_errors();
-			$response['data'] = (array)$errors;
+				$response['data'] = (array)generateStructure($xmlfile);
+			}
 		}
 	}
-
-	curl_close($handle);
 
 	$convObj = (array)$statusObj;
 	$response['metadata'] = $convObj;
@@ -141,6 +136,21 @@ function generateStructure($input) {
 	}
 
 	return $localArray;
+}
+
+function validateUrl($url) {
+	$handle = curl_init($url);
+	curl_setopt($handle,  CURLOPT_RETURNTRANSFER, TRUE);
+
+	/* Get the HTML or whatever is linked in $url. */
+	$curlResponse = curl_exec($handle);
+
+	/* Check for 404 (file not found). */
+	$httpCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+
+	curl_close($handle);
+
+	return $httpCode;
 }
 
 
