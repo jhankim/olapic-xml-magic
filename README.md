@@ -19,25 +19,31 @@ AngularJS + PHP powered script to validate + visualize product feed structure
   $ cd olapic-xml-magic
   ```
 
-2. Run `npm install`
+2. Install npm
 
   ```sh
   $ npm install
   ```
 
-3. Run `bower install`
+3. Install bower
   
   ```sh
-  $ bower install
+  $ npm install bower
+  ```
+
+4. Install grunt-cli
+  
+  ```sh
+  $ npm install grunt-cli
   ```
   
-4. Serve the page using `grunt serve`
+5. Serve the page using `grunt serve`
 
   ```sh
   $ grunt serve
   ```
   
-5. Start validating at `http://localhost:9000/` :)
+6. Start validating at `http://localhost:9000/` :)
 
 ## Extras
 
