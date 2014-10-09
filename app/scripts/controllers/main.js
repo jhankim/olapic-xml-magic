@@ -19,18 +19,27 @@ angular.module('olapicFeedVisualApp')
 
     $scope.formData = {};
 
+    function onSuccess(data){
+      $scope.metadata = data.metadata;
+      if ( data.metadata.code > 1 ) {
+        $scope.errors = data.data;
+      } else {
+        $scope.products = data.data;
+      }
+    }
+
     $scope.triggerUpload=function()
     {
-     var fileuploader = angular.element("#input-feed-file");
+     var fileuploader = angular.element('#input-feed-file');
         fileuploader.on('click',function(){
-            console.log("File upload triggered programatically");
-        })
-        fileuploader.trigger('click')
-    }
+            console.log('File upload triggered programatically');
+        });
+        fileuploader.trigger('click');
+    };
 
     $scope.urlSubmit = function() {
 
-      $scope.errors, $scope.products = '';
+      $scope.errors = $scope.products = '';
 
       var requestUrl;
 
@@ -46,19 +55,13 @@ angular.module('olapicFeedVisualApp')
       }
 
       $http.get(requestUrl).
-      success(function(data, status, headers, config) {
-        $scope.metadata = data.metadata;
-        if ( data.metadata.code > 1 ) {
-          $scope.errors = data.data;
-          console.log('there was an error');
-        } else {
-          $scope.products = data.data;
-        }
-        
+      success(function(data) {
+        onSuccess(data);
       }).
-      error(function(data, status, headers, config) {
+      error(function(data) {
+        console.log(data);
       });
-    }
+    };
 
     $scope.onFileSelect = function($files) {
 
@@ -72,17 +75,8 @@ angular.module('olapicFeedVisualApp')
           file: file
         }).progress(function(evt) {
           console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-        }).success(function(data, status, headers, config) {
-          // file is uploaded successfully
-          $scope.metadata = data.metadata;
-
-          if ( data.metadata.code > 1 ) {
-            $scope.errors = data.data;
-            console.log('there was an error');
-          } else {
-            $scope.products = data.data;
-          }
-
+        }).success(function(data) {
+          onSuccess(data);
         });
         //.error(...)
         //.then(success, error, progress); 
