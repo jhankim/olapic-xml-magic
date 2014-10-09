@@ -102,7 +102,7 @@
       </div>
 
       <ul class="product-list" ng-show="products" style="font-family:Menlo, Monaco, Consolas, 'Courier New', monospace">
-        <li class="cf" ng-repeat="product in products">
+        <li class="cf" ng-repeat="product in products | pagination: curPage * pageSize | limitTo: pageSize">
           <div class="img-container col-md-2" style="background-image:url('{{product.imageUrl}}');"></div>
           <div class="info-container col-md-9">
 

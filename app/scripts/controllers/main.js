@@ -19,12 +19,21 @@ angular.module('olapicFeedVisualApp')
 
     $scope.formData = {};
 
+    $scope.curPage = 0;
+    $scope.pageSize = 10;
+
+    $scope.numberOfPages = function() {
+      return Math.ceil($scope.products.length / $scope.pageSize);
+    };
+
     function onSuccess(data){
       $scope.metadata = data.metadata;
       if ( data.metadata.code > 1 ) {
         $scope.errors = data.data;
       } else {
-        $scope.products = data.data;
+        // console.log(JSON.parse(data.data));
+        var o = data.data
+        $scope.products = Object.keys(o).map(function(k) { return o[k] });
       }
     }
 
