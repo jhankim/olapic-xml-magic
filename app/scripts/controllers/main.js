@@ -21,6 +21,7 @@ angular.module('olapicFeedVisualApp')
 
     $scope.curPage = 0;
     $scope.pageSize = 10;
+    $scope.products = [];
 
     $scope.numberOfPages = function() {
       return Math.ceil($scope.products.length / $scope.pageSize);
@@ -34,6 +35,8 @@ angular.module('olapicFeedVisualApp')
         // console.log(JSON.parse(data.data));
         var o = data.data
         $scope.products = Object.keys(o).map(function(k) { return o[k] });
+
+        console.log($scope.products.length);
       }
     }
 
