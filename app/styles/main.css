@@ -142,6 +142,11 @@ body {
   max-width: 1000px;
 }
 
+.pagination > li {
+  display: inline-block;
+  vertical-align: middle;
+}
+
 dl {
   margin-bottom: 0px;
 }

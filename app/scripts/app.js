@@ -28,4 +28,10 @@ angular
       .otherwise({
         redirectTo: '/'
       });
+  }).filter('pagination', function(){
+    return function(input, start){
+      if (!input || !input.length) { console.log('input null');return; }
+      start = +start;
+      return input.slice(start);
+    };
   });
