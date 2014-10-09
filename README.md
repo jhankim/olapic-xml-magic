@@ -49,7 +49,7 @@ AngularJS + PHP powered script to validate + visualize product feed structure
 
 ### Max file upload size
 
-This is currently set to `10M` in `/app/php.ini`.
+This is currently set to `128M` in `/app/php.ini`.
 
 You can alter the content of the `php.ini` to accomodate larger files (no safety guaranteed though!)
 
